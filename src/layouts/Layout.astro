@@ -1,0 +1,90 @@
+---
+const { title, description } = Astro.props
+---
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- SEO -->
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href={`https://rapicasa.vercel.app${Astro.url.pathname}`} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:locale" content="es_CO" />
+    <meta property="og:site_name" content="Rapicasa" />
+
+    <!-- Schema.org - Negocio Local -->
+    <script type="application/ld+json" set:html={JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "HomeAndConstructionBusiness",
+        "name": "Rapicasa",
+        "description": "Construcción de casas y bodegas prefabricadas en Pereira, Dosquebradas y el Eje Cafetero",
+        "telephone": "+573013572990",
+        "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Pereira",
+            "addressRegion": "Risaralda",
+            "addressCountry": "CO"
+        },
+        "areaServed": ["Pereira", "Dosquebradas", "Risaralda", "Eje Cafetero"],
+        "priceRange": "Desde $15.000.000 COP"
+    })} />
+
+    <!-- Fuentes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <link rel="icon" type="image/png" href="/img/logo.png" />
+</head>
+<body>
+    <slot />
+</body>
+</html>
+
+<style is:global>
+    :root {
+        --verde: #1b9c63;
+        --verde-claro: #8de3b8;
+        --verde-oscuro: #0f6b42;
+        --azul-petroleo: #0c5460;
+        --azul-petroleo-claro: #14707f;
+        --blanco: #ffffff;
+        --gris-claro: #f4f7f6;
+        --gris-medio: #6b7b78;
+        --texto: #1c2b27;
+        --fuente-titulo: 'Poppins', sans-serif;
+        --fuente-cuerpo: 'Inter', sans-serif;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        font-family: var(--fuente-cuerpo);
+        color: var(--texto);
+        background: var(--blanco);
+        overflow-x: hidden;
+    }
+
+    img { max-width: 100%; display: block; }
+    a { text-decoration: none; color: inherit; }
+    button { font-family: var(--fuente-cuerpo); cursor: pointer; }
+
+    ::selection { background: var(--verde); color: var(--blanco); }
+</style>

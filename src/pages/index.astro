@@ -1,17 +1,389 @@
 ---
+import Layout from '../layouts/Layout.astro'
+import Nav from '../components/Nav.astro'
+import WhatsappBoton from '../components/WhatsappBoton.astro'
+import Hero3D from '../components/Hero3D.astro'
 
+const beneficios = [
+    { icono: "💰", titulo: "Ahorro hasta del 40%", texto: "Invierte de manera inteligente sin sacrificar calidad ni diseño." },
+    { icono: "⚡", titulo: "Instalación rápida", texto: "Tu hogar listo en tiempo récord, entrega en días, no en meses." },
+    { icono: "🛡️", titulo: "Materiales duraderos", texto: "Construcciones que resisten el paso del tiempo y te dan tranquilidad por años." },
+    { icono: "🎨", titulo: "Diseño flexible", texto: "Cada espacio se adapta a ti, creando un hogar único y funcional." },
+]
+
+const entregables = [
+    "Distribución de la casa (habitaciones, baños y zonas sociales)",
+    "Puertas interiores con chapa",
+    "Ventanas en cada espacio",
+    "Puerta principal de ingreso",
+    "Ductos para acometida eléctrica",
+    "Instalación de la cubierta",
+]
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout
+    title="Rapicasa — Casas Prefabricadas en Pereira y Dosquebradas | Desde $15M"
+    description="Construye tu casa propia en días, no en meses. Casas prefabricadas de alta calidad en Pereira, Dosquebradas y el Eje Cafetero. Ahorra hasta 40% en construcción."
+>
+    <Nav />
+
+    <!-- HERO -->
+    <section id="hero">
+        <Hero3D />
+        <div class="hero-fondo-deco"></div>
+        <div class="hero-contenido">
+            <p class="hero-tag">🏠 Casas Prefabricadas en el Eje Cafetero</p>
+            <h1 class="hero-titulo">
+                Haz realidad tu sueño<br>
+                de tener <em>casa propia</em>
+            </h1>
+            <p class="hero-subtitulo">
+                Construimos casas y bodegas prefabricadas con materiales de calidad en Pereira, Dosquebradas y Risaralda. Ahorra hasta 40% y entrega en días, no en meses.
+            </p>
+            <div class="hero-botones">
+                <a href="/contacto" class="btn-principal">Agenda una cita</a>
+                <a href="/modelos" class="btn-secundario">Ver modelos →</a>
+            </div>
+            <div class="hero-precio">
+                <span>Casas desde</span>
+                <strong>$15.000.000 COP</strong>
+            </div>
+        </div>
+        <div class="hero-imagen">
+            <img src="/img/casa-destacada.png" alt="Casa prefabricada Rapicasa con techo de teja en estructura de madera" />
+        </div>
+    </section>
+
+    <!-- PROPÓSITO -->
+    <section id="proposito">
+        <div class="proposito-grid">
+            <div class="proposito-texto">
+                <p class="seccion-tag">¿Quiénes somos?</p>
+                <h2 class="seccion-titulo">Diseñamos y levantamos el lugar donde nacen tus sueños</h2>
+                <p>
+                    En Rapicasa creemos que un hogar es mucho más que paredes y techos: es el lugar donde nacen los sueños, la unión familiar y los proyectos de vida.
+                </p>
+                <p>
+                    Nos dedicamos a construir casas y bodegas prefabricadas con materiales de calidad y diseños versátiles, pensados para adaptarse a las necesidades de cada familia y empresa en Pereira, Dosquebradas y todo Risaralda.
+                </p>
+                <p class="proposito-destacado">
+                    Construimos hogares, construimos felicidad.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- BENEFICIOS -->
+    <section id="beneficios">
+        <p class="seccion-tag seccion-tag-centro">Beneficios Rapicasa</p>
+        <h2 class="seccion-titulo seccion-titulo-centro">Por qué elegir una casa prefabricada</h2>
+
+        <div class="beneficios-grid">
+            {beneficios.map(b => (
+                <div class="beneficio-card">
+                    <span class="beneficio-icono">{b.icono}</span>
+                    <h3>{b.titulo}</h3>
+                    <p>{b.texto}</p>
+                </div>
+            ))}
+        </div>
+    </section>
+
+    <!-- QUÉ ENTREGAMOS -->
+    <section id="entregamos">
+        <div class="entregamos-grid">
+            <div class="entregamos-texto">
+                <p class="seccion-tag">Qué entregamos</p>
+                <h2 class="seccion-titulo">Todo lo que necesitas, en un solo paquete</h2>
+                <ul class="entregamos-lista">
+                    {entregables.map((item, i) => (
+                        <li><span class="entregamos-num">{String(i + 1).padStart(2, "0")}</span>{item}</li>
+                    ))}
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- MATERIALES PREVIEW -->
+    <section id="materiales-preview">
+        <p class="seccion-tag seccion-tag-centro">Materiales premium</p>
+        <h2 class="seccion-titulo seccion-titulo-centro">Calidad que se nota y se siente</h2>
+        <p class="materiales-sub">Placas de concreto, hierro galvanizado, madera chanul y tejas de barro — materiales pensados para durar generaciones.</p>
+        <a href="/materiales" class="btn-secundario">Conoce todos los materiales →</a>
+    </section>
+
+    <!-- CTA FINAL -->
+    <section id="cta-final">
+        <h2>Construimos hogares, construimos felicidad.</h2>
+        <p>Requisito: contar con tu lote para la construcción.</p>
+        <a href="/contacto" class="btn-principal btn-grande">Agenda tu cita ahora</a>
+    </section>
+
+    <WhatsappBoton />
+</Layout>
+
+<style>
+    /* HERO */
+    #hero {
+        min-height: 100vh;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        align-items: center;
+        padding: 120px 60px 60px;
+        gap: 40px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .hero-fondo-deco {
+        position: absolute;
+        top: -200px; right: -200px;
+        width: 600px; height: 600px;
+        border-radius: 50%;
+        background: radial-gradient(circle, var(--verde-claro) 0%, transparent 70%);
+        opacity: 0.3;
+        pointer-events: none;
+    }
+
+    .hero-contenido { position: relative; z-index: 1; }
+
+    .hero-tag {
+        display: inline-block;
+        background: #e8f8ef;
+        color: var(--verde-oscuro);
+        padding: 8px 18px;
+        border-radius: 30px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        margin-bottom: 24px;
+    }
+
+    .hero-titulo {
+        font-family: var(--fuente-titulo);
+        font-size: clamp(2.5rem, 4.5vw, 3.6rem);
+        font-weight: 700;
+        line-height: 1.15;
+        color: var(--azul-petroleo);
+        margin-bottom: 24px;
+    }
+
+    .hero-titulo em {
+        font-style: normal;
+        color: var(--verde);
+    }
+
+    .hero-subtitulo {
+        font-size: 1.05rem;
+        color: var(--gris-medio);
+        line-height: 1.7;
+        margin-bottom: 36px;
+        max-width: 480px;
+    }
+
+    .hero-botones {
+        display: flex;
+        gap: 16px;
+        margin-bottom: 32px;
+        flex-wrap: wrap;
+    }
+
+    .btn-principal {
+        display: inline-block;
+        background: var(--verde);
+        color: white;
+        padding: 16px 34px;
+        border-radius: 10px;
+        font-weight: 600;
+        font-size: 0.95rem;
+        transition: all 0.3s ease;
+    }
+
+    .btn-principal:hover {
+        background: var(--verde-oscuro);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(27,156,99,0.3);
+    }
+
+    .btn-secundario {
+        display: inline-block;
+        background: transparent;
+        color: var(--azul-petroleo);
+        padding: 16px 34px;
+        border-radius: 10px;
+        font-weight: 600;
+        font-size: 0.95rem;
+        border: 1.5px solid var(--azul-petroleo);
+        transition: all 0.3s ease;
+    }
+
+    .btn-secundario:hover { background: var(--azul-petroleo); color: white; }
+
+    .hero-precio {
+        display: flex;
+        align-items: baseline;
+        gap: 10px;
+    }
+
+    .hero-precio span { font-size: 0.9rem; color: var(--gris-medio); }
+    .hero-precio strong { font-size: 1.4rem; color: var(--verde); font-family: var(--fuente-titulo); }
+
+    .hero-imagen {
+        position: relative;
+        z-index: 1;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 30px 60px rgba(12,84,96,0.2);
+    }
+
+    .hero-imagen img {
+        width: 100%;
+        height: 560px;
+        object-fit: cover;
+    }
+
+    /* SECCIONES GENERAL */
+    section { padding: 90px 60px; }
+
+    .seccion-tag {
+        color: var(--verde);
+        font-weight: 700;
+        font-size: 0.85rem;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        margin-bottom: 14px;
+    }
+
+    .seccion-tag-centro { text-align: center; }
+
+    .seccion-titulo {
+        font-family: var(--fuente-titulo);
+        font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+        font-weight: 700;
+        color: var(--azul-petroleo);
+        line-height: 1.25;
+        margin-bottom: 24px;
+    }
+
+    .seccion-titulo-centro { text-align: center; max-width: 700px; margin: 0 auto 50px; }
+
+    /* PROPÓSITO */
+    #proposito { background: var(--gris-claro); }
+
+    .proposito-grid { max-width: 720px; margin: 0 auto; text-align: center; }
+
+    .proposito-texto p {
+        color: var(--gris-medio);
+        font-size: 1rem;
+        line-height: 1.8;
+        margin-bottom: 18px;
+    }
+
+    .proposito-destacado {
+        color: var(--verde) !important;
+        font-weight: 700;
+        font-size: 1.2rem !important;
+        font-family: var(--fuente-titulo);
+        margin-top: 28px !important;
+    }
+
+    /* BENEFICIOS */
+    .beneficios-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+        gap: 28px;
+        max-width: 1100px;
+        margin: 0 auto;
+    }
+
+    .beneficio-card {
+        background: var(--gris-claro);
+        border-radius: 16px;
+        padding: 36px 28px;
+        text-align: center;
+        transition: all 0.3s ease;
+    }
+
+    .beneficio-card:hover {
+        background: white;
+        box-shadow: 0 12px 30px rgba(12,84,96,0.1);
+        transform: translateY(-6px);
+    }
+
+    .beneficio-icono { font-size: 2.4rem; display: block; margin-bottom: 18px; }
+
+    .beneficio-card h3 {
+        font-family: var(--fuente-titulo);
+        font-size: 1.1rem;
+        color: var(--azul-petroleo);
+        margin-bottom: 10px;
+    }
+
+    .beneficio-card p { color: var(--gris-medio); font-size: 0.88rem; line-height: 1.6; }
+
+    /* ENTREGAMOS */
+    #entregamos { background: var(--azul-petroleo); }
+
+    .entregamos-grid { max-width: 800px; margin: 0 auto; }
+
+    #entregamos .seccion-tag { color: var(--verde-claro); }
+    #entregamos .seccion-titulo { color: white; }
+
+    .entregamos-lista { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+    .entregamos-lista li {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        color: rgba(255,255,255,0.85);
+        font-size: 0.92rem;
+    }
+
+    .entregamos-num {
+        font-family: var(--fuente-titulo);
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: var(--verde-claro);
+        flex-shrink: 0;
+    }
+
+    /* MATERIALES PREVIEW */
+    #materiales-preview { text-align: center; }
+
+    .materiales-sub {
+        max-width: 560px;
+        margin: 0 auto 36px;
+        color: var(--gris-medio);
+        line-height: 1.7;
+    }
+
+    /* CTA FINAL */
+    #cta-final {
+        background: linear-gradient(135deg, var(--verde) 0%, var(--verde-oscuro) 100%);
+        text-align: center;
+        padding: 100px 60px;
+    }
+
+    #cta-final h2 {
+        font-family: var(--fuente-titulo);
+        font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+        color: white;
+        margin-bottom: 16px;
+    }
+
+    #cta-final p {
+        color: rgba(255,255,255,0.85);
+        margin-bottom: 36px;
+    }
+
+    .btn-grande { background: white; color: var(--verde-oscuro); padding: 18px 44px; font-size: 1.05rem; }
+    .btn-grande:hover { background: var(--gris-claro); }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+        #hero { grid-template-columns: 1fr; padding: 110px 24px 50px; }
+        .hero-imagen img { height: 320px; }
+        section { padding: 60px 24px; }
+        .entregamos-lista { grid-template-columns: 1fr; }
+        #cta-final { padding: 70px 24px; }
+    }
+</style>

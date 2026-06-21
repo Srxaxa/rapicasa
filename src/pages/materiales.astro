@@ -1,0 +1,246 @@
+---
+import Layout from '../layouts/Layout.astro'
+import Nav from '../components/Nav.astro'
+import WhatsappBoton from '../components/WhatsappBoton.astro'
+
+const materiales = [
+    {
+        categoria: "Estructura y Muros",
+        items: [
+            {
+                nombre: "Paredes en placas de concreto estilo ladrillo a la vista",
+                texto: "Resistentes y estéticas, brindan firmeza y un acabado moderno sin necesidad de revestimientos adicionales.",
+                img: "/img/materiales/ladrillo-vista.png"
+            },
+            {
+                nombre: "Perfilería en hierro galvanizado",
+                texto: "Estructura sólida y protegida contra la corrosión para mayor durabilidad.",
+                img: "/img/materiales/perfileria-hierro.png"
+            },
+            {
+                nombre: "Viguetería en madera chanul",
+                texto: "Madera natural reconocida por su resistencia y calidad en estructuras.",
+                img: "/img/materiales/viguetas-madera.png"
+            },
+        ]
+    },
+    {
+        categoria: "Ventanería",
+        items: [
+            {
+                nombre: "Ventanería en roble",
+                texto: "Detalles que aportan calidez y resistencia, garantizando luminosidad y seguridad.",
+                img: "/img/materiales/ventana-roble.png"
+            },
+            {
+                nombre: "Ventanería en aluminio con vidrio",
+                texto: "Acabado moderno, resistente y de bajo mantenimiento para cada espacio.",
+                img: "/img/materiales/ventana-aluminio.png"
+            },
+        ]
+    },
+    {
+        categoria: "Cubierta y Techos",
+        items: [
+            {
+                nombre: "Fibrocemento de 8 mm",
+                texto: "Material versátil, resistente a la humedad y de larga duración en techos y paredes.",
+                img: "/img/materiales/fibrocemento.png"
+            },
+            {
+                nombre: "Tejas de barro",
+                texto: "Tradicionales y confiables, aportan frescura, estilo y resistencia al techo.",
+                img: "/img/materiales/tejas-barro.png"
+            },
+            {
+                nombre: "Tela asfáltica",
+                texto: "Capa protectora que garantiza impermeabilización y seguridad contra filtraciones.",
+                img: "/img/materiales/tela-asfaltica.png"
+            },
+        ]
+    },
+]
+---
+
+<Layout
+    title="Materiales de Construcción — Rapicasa | Calidad Premium en Pereira"
+    description="Conoce los materiales con los que construimos tu casa prefabricada: concreto, hierro galvanizado, madera chanul, tejas de barro y más. Calidad que dura generaciones."
+>
+    <Nav />
+
+    <section id="materiales-hero">
+        <p class="seccion-tag seccion-tag-centro">Calidad sin atajos</p>
+        <h1 class="materiales-titulo">Materiales que garantizan tu tranquilidad</h1>
+        <p class="materiales-intro">
+            Cada casa Rapicasa se construye con materiales seleccionados por su resistencia, durabilidad y acabado. Esto es lo que hace la diferencia.
+        </p>
+    </section>
+
+    {materiales.map(grupo => (
+        <section class="categoria-seccion">
+            <h2 class="categoria-titulo">{grupo.categoria}</h2>
+            <div class="materiales-grid">
+                {grupo.items.map(item => (
+                    <article class="material-card">
+                        <div class="material-imagen">
+                            <img src={item.img} alt={item.nombre} loading="lazy" />
+                        </div>
+                        <div class="material-info">
+                            <h3>{item.nombre}</h3>
+                            <p>{item.texto}</p>
+                        </div>
+                    </article>
+                ))}
+            </div>
+        </section>
+    ))}
+
+    <section id="materiales-cta">
+        <h2>¿Quieres ver estos materiales en persona?</h2>
+        <a href="/contacto" class="btn-principal btn-grande">Agenda una visita</a>
+    </section>
+
+    <WhatsappBoton />
+</Layout>
+
+<style>
+    #materiales-hero {
+        padding: 140px 60px 60px;
+        text-align: center;
+        background: var(--gris-claro);
+    }
+
+    .seccion-tag {
+        color: var(--verde);
+        font-weight: 700;
+        font-size: 0.85rem;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        margin-bottom: 14px;
+    }
+
+    .seccion-tag-centro { text-align: center; }
+
+    .materiales-titulo {
+        font-family: var(--fuente-titulo);
+        font-size: clamp(2rem, 4vw, 3rem);
+        font-weight: 700;
+        color: var(--azul-petroleo);
+        margin-bottom: 20px;
+    }
+
+    .materiales-intro {
+        max-width: 600px;
+        margin: 0 auto;
+        color: var(--gris-medio);
+        font-size: 1.05rem;
+        line-height: 1.7;
+    }
+
+    .categoria-seccion {
+        padding: 70px 60px;
+    }
+
+    .categoria-seccion:nth-of-type(even) {
+        background: var(--gris-claro);
+    }
+
+    .categoria-titulo {
+        font-family: var(--fuente-titulo);
+        font-size: 1.7rem;
+        color: var(--azul-petroleo);
+        margin-bottom: 36px;
+        max-width: 1100px;
+        margin-left: auto;
+        margin-right: auto;
+        border-left: 4px solid var(--verde);
+        padding-left: 18px;
+    }
+
+    .materiales-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 28px;
+        max-width: 1100px;
+        margin: 0 auto;
+    }
+
+    .material-card {
+        background: white;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 4px 16px rgba(12,84,96,0.06);
+        transition: all 0.3s ease;
+    }
+
+    .material-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 16px 32px rgba(12,84,96,0.12);
+    }
+
+    .material-imagen {
+        width: 100%;
+        height: 220px;
+        overflow: hidden;
+    }
+
+    .material-imagen img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.4s ease;
+    }
+
+    .material-card:hover .material-imagen img {
+        transform: scale(1.08);
+    }
+
+    .material-info { padding: 24px; }
+
+    .material-info h3 {
+        font-family: var(--fuente-titulo);
+        font-size: 1.05rem;
+        color: var(--azul-petroleo);
+        margin-bottom: 10px;
+        line-height: 1.4;
+    }
+
+    .material-info p {
+        color: var(--gris-medio);
+        font-size: 0.88rem;
+        line-height: 1.6;
+    }
+
+    #materiales-cta {
+        background: linear-gradient(135deg, var(--verde) 0%, var(--verde-oscuro) 100%);
+        text-align: center;
+        padding: 90px 60px;
+    }
+
+    #materiales-cta h2 {
+        font-family: var(--fuente-titulo);
+        font-size: clamp(1.6rem, 3vw, 2.2rem);
+        color: white;
+        margin-bottom: 32px;
+    }
+
+    .btn-principal {
+        display: inline-block;
+        background: var(--verde);
+        color: white;
+        padding: 16px 34px;
+        border-radius: 10px;
+        font-weight: 600;
+        font-size: 0.95rem;
+        transition: all 0.3s ease;
+    }
+
+    .btn-grande { background: white; color: var(--verde-oscuro); padding: 18px 44px; font-size: 1.05rem; }
+    .btn-grande:hover { background: var(--gris-claro); }
+
+    @media (max-width: 768px) {
+        #materiales-hero { padding: 110px 24px 40px; }
+        .categoria-seccion { padding: 50px 24px; }
+        #materiales-cta { padding: 60px 24px; }
+    }
+</style>
