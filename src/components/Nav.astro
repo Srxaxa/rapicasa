@@ -116,4 +116,52 @@ const links = [
         .nav-burger { display: flex; }
         .nav-logo span { display: none; }
     }
+    
+    @media (max-width: 900px) {
+    #nav.nav-abierto .nav-links {
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Centra los enlaces */
+        justify-content: center;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: white;
+        padding: 32px 24px;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+        gap: 28px; /* Más separación entre enlaces */
+        border-top: 1px solid var(--borde, #e2e8f0);
+        text-align: center;
+    }
+
+    #nav.nav-abierto .nav-cta {
+        display: block;
+        text-align: center;
+        margin: 24px;
+        position: absolute;
+        bottom: -90px;
+        left: 0;
+        right: 0;
+    }
+}
+    
+
+
 </style>
+
+<script>
+    const burger = document.getElementById('nav-burger')
+    const nav = document.getElementById('nav')
+
+    burger?.addEventListener('click', () => {
+        nav?.classList.toggle('nav-abierto')
+    })
+
+    // Cerrar al hacer clic en un link
+    document.querySelectorAll('.nav-links a').forEach(link => {
+        link.addEventListener('click', () => {
+            nav?.classList.remove('nav-abierto')
+        })
+    })
+</script>

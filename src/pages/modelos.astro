@@ -1,0 +1,409 @@
+---
+import Layout from '../layouts/Layout.astro'
+import Nav from '../components/Nav.astro'
+import WhatsappBoton from '../components/WhatsappBoton.astro'
+
+const modelos = [
+    {
+        id: 1,
+        nombre: "Villa Serena",
+        descripcion: "Elegancia y confort en dos niveles. Paredes en fibrocemento blanco, amplia terraza cubierta con estructura en madera chanul y ventanería en roble que inunda cada espacio de luz natural.",
+        pisos: 2,
+        precio: "Desde $45.000.000",
+        img: "/img/modelos/villa-serena.jpeg",
+        caracteristicas: ["2 pisos", "Terraza cubierta", "Ventanería en roble", "Paredes fibrocemento"],
+        destacado: true
+    },
+    {
+        id: 2,
+        nombre: "Dúo Campo",
+        descripcion: "Dos unidades independientes en un mismo lote. Ideal para familia extendida o renta. Paredes en concreto gris, techo de tejas de barro y jardines integrados.",
+        pisos: 1,
+        precio: "Desde $32.000.000",
+        img: "/img/modelos/duo-campo.jpeg",
+        caracteristicas: ["2 unidades", "1 piso", "Techo en tejas de barro", "Jardín integrado"],
+        destacado: false
+    },
+    {
+        id: 3,
+        nombre: "Montaña Real",
+        descripcion: "Diseño tradicional del Eje Cafetero en dos plantas. Ladrillo a la vista, balcón en madera y vistas panorámicas a la montaña. La esencia de Risaralda en cada detalle.",
+        pisos: 2,
+        precio: "Desde $52.000.000",
+        img: "/img/modelos/montana-real.jpeg",
+        caracteristicas: ["2 pisos", "Balcón en madera", "Ladrillo a la vista", "Estilo cafetero"],
+        destacado: false
+    },
+    {
+        id: 4,
+        nombre: "Gran Eje",
+        descripcion: "Nuestra joya arquitectónica. Dos pisos con fachada en concreto natural, techo triangular de alto impacto visual y una luminosidad interior única gracias a sus amplios ventanales.",
+        pisos: 2,
+        precio: "Desde $68.000.000",
+        img: "/img/modelos/gran-eje.jpeg",
+        caracteristicas: ["2 pisos", "Techo triangular", "Concreto natural", "Ventanales amplios"],
+        destacado: true
+    },
+    {
+        id: 5,
+        nombre: "Casa Palma",
+        descripcion: "Funcionalidad y calidez en un solo nivel. Perfecta para familias jóvenes. Paredes en madera terracota, techo de tejas de barro y amplio jardín verde en Pereira y Dosquebradas.",
+        pisos: 1,
+        precio: "Desde $22.000.000",
+        img: "/img/modelos/casa-palma.jpeg",
+        caracteristicas: ["1 piso", "Jardín amplio", "Techo tejas de barro", "Fácil mantenimiento"],
+        destacado: false
+    },
+]
+---
+
+<Layout
+    title="Modelos de Casas Prefabricadas — Rapicasa | Pereira y Dosquebradas"
+    description="Explora nuestros modelos de casas prefabricadas desde $15 millones. Villa Serena, Casa Palma, Gran Eje y más. Construimos en Pereira, Dosquebradas y el Eje Cafetero."
+>
+    <Nav />
+
+    <!-- Hero -->
+    <section id="modelos-hero">
+        <p class="seccion-tag seccion-tag-centro">Catálogo de modelos</p>
+        <h1 class="modelos-titulo">Encuentra la casa de tus sueños</h1>
+        <p class="modelos-intro">
+            Cada modelo está diseñado pensando en las familias del Eje Cafetero — el clima, el paisaje y el estilo de vida de Pereira y Dosquebradas.
+        </p>
+        <div class="modelos-filtros">
+            <button class="filtro activo" data-filtro="todos">Todos</button>
+            <button class="filtro" data-filtro="1">1 Piso</button>
+            <button class="filtro" data-filtro="2">2 Pisos</button>
+        </div>
+    </section>
+
+    <!-- Grid de modelos -->
+    <section id="modelos-grid-seccion">
+        <div class="modelos-grid">
+            {modelos.map(modelo => (
+                <article class="modelo-card" data-pisos={modelo.pisos}>
+                    {modelo.destacado && <span class="modelo-badge">⭐ Destacado</span>}
+                    <div class="modelo-imagen">
+                        <img
+                            src={modelo.img}
+                            alt={`Casa prefabricada ${modelo.nombre} — Rapicasa`}
+                            loading="lazy"
+                        />
+                        <div class="modelo-overlay">
+                            <a href="/contacto" class="btn-overlay">Cotizar este modelo</a>
+                        </div>
+                    </div>
+                    <div class="modelo-info">
+                        <div class="modelo-header">
+                            <h2 class="modelo-nombre">{modelo.nombre}</h2>
+                            <span class="modelo-precio">{modelo.precio}</span>
+                        </div>
+                        <p class="modelo-desc">{modelo.descripcion}</p>
+                        <ul class="modelo-caracteristicas">
+                            {modelo.caracteristicas.map(c => (
+                                <li>✓ {c}</li>
+                            ))}
+                        </ul>
+                        <a href="/contacto" class="btn-modelo">Cotizar este modelo</a>
+                    </div>
+                </article>
+            ))}
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section id="modelos-cta">
+        <h2>¿No encuentras lo que buscas?</h2>
+        <p>Diseñamos tu casa a la medida según tu lote y presupuesto.</p>
+        <a href="/contacto" class="btn-principal btn-grande">Solicitar diseño personalizado</a>
+    </section>
+
+    <WhatsappBoton />
+</Layout>
+
+<script>
+    // Filtro de pisos
+    const filtros = document.querySelectorAll('.filtro')
+    const cards = document.querySelectorAll('.modelo-card')
+
+    filtros.forEach(filtro => {
+        filtro.addEventListener('click', () => {
+            filtros.forEach(f => f.classList.remove('activo'))
+            filtro.classList.add('activo')
+
+            const valor = filtro.getAttribute('data-filtro')
+
+            cards.forEach(card => {
+                const pisos = card.getAttribute('data-pisos')
+                const elemento = card as HTMLElement
+
+                if (valor === 'todos' || pisos === valor) {
+                    elemento.style.display = 'flex'
+                    setTimeout(() => { elemento.style.opacity = '1' }, 10)
+                } else {
+                    elemento.style.opacity = '0'
+                    setTimeout(() => { elemento.style.display = 'none' }, 300)
+                }
+            })
+        })
+    })
+</script>
+
+<style>
+    /* Hero */
+    #modelos-hero {
+        padding: 140px 60px 50px;
+        text-align: center;
+        background: linear-gradient(135deg, var(--gris-claro) 0%, #e8f5ee 100%);
+    }
+
+    .seccion-tag {
+        color: var(--verde);
+        font-weight: 700;
+        font-size: 0.85rem;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        margin-bottom: 14px;
+        display: block;
+    }
+
+    .seccion-tag-centro { text-align: center; }
+
+    .modelos-titulo {
+        font-family: var(--fuente-titulo);
+        font-size: clamp(2rem, 4vw, 3rem);
+        color: var(--azul-petroleo);
+        margin-bottom: 20px;
+    }
+
+    .modelos-intro {
+        max-width: 560px;
+        margin: 0 auto 36px;
+        color: var(--gris-medio);
+        line-height: 1.7;
+    }
+
+    .modelos-filtros {
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .filtro {
+        padding: 10px 24px;
+        border-radius: 30px;
+        border: 1.5px solid var(--borde, #e2e8f0);
+        background: white;
+        color: var(--gris-medio);
+        font-size: 0.88rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .filtro.activo, .filtro:hover {
+        background: var(--verde);
+        color: white;
+        border-color: var(--verde);
+    }
+
+    /* Grid */
+    #modelos-grid-seccion { padding: 70px 60px; }
+
+    .modelos-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+        gap: 36px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .modelo-card {
+        background: white;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 4px 20px rgba(12,84,96,0.07);
+        display: flex;
+        flex-direction: column;
+        transition: all 0.4s ease;
+        position: relative;
+        opacity: 1;
+    }
+
+    .modelo-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 40px rgba(12,84,96,0.14);
+    }
+
+    .modelo-badge {
+        position: absolute;
+        top: 16px;
+        left: 16px;
+        background: var(--verde);
+        color: white;
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        z-index: 2;
+    }
+
+    .modelo-imagen {
+        position: relative;
+        height: 260px;
+        overflow: hidden;
+    }
+
+    .modelo-imagen img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+
+    .modelo-card:hover .modelo-imagen img {
+        transform: scale(1.06);
+    }
+
+    .modelo-overlay {
+        position: absolute;
+        inset: 0;
+        background: rgba(12,84,96,0.7);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .modelo-card:hover .modelo-overlay { opacity: 1; }
+
+    .btn-overlay {
+        background: white;
+        color: var(--azul-petroleo);
+        padding: 14px 28px;
+        border-radius: 8px;
+        font-weight: 700;
+        font-size: 0.88rem;
+        transition: all 0.3s ease;
+    }
+
+    .btn-overlay:hover {
+        background: var(--verde);
+        color: white;
+    }
+
+    .modelo-info {
+        padding: 28px;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        gap: 14px;
+    }
+
+    .modelo-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .modelo-nombre {
+        font-family: var(--fuente-titulo);
+        font-size: 1.3rem;
+        color: var(--azul-petroleo);
+        line-height: 1.2;
+    }
+
+    .modelo-precio {
+        color: var(--verde);
+        font-weight: 700;
+        font-size: 0.88rem;
+        white-space: nowrap;
+        background: #e8f5ee;
+        padding: 6px 12px;
+        border-radius: 8px;
+    }
+
+    .modelo-desc {
+        color: var(--gris-medio);
+        font-size: 0.88rem;
+        line-height: 1.65;
+    }
+
+    .modelo-caracteristicas {
+        list-style: none;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+    }
+
+    .modelo-caracteristicas li {
+        font-size: 0.8rem;
+        color: var(--texto);
+        font-weight: 500;
+    }
+
+    .btn-modelo {
+        display: block;
+        background: var(--verde);
+        color: white;
+        text-align: center;
+        padding: 14px;
+        border-radius: 10px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        margin-top: auto;
+        transition: background 0.3s ease;
+    }
+
+    .btn-modelo:hover { background: var(--verde-oscuro); }
+
+    /* CTA */
+    #modelos-cta {
+        background: linear-gradient(135deg, var(--azul-petroleo) 0%, var(--azul-petroleo-claro) 100%);
+        text-align: center;
+        padding: 90px 60px;
+    }
+
+    #modelos-cta h2 {
+        font-family: var(--fuente-titulo);
+        font-size: clamp(1.8rem, 3vw, 2.4rem);
+        color: white;
+        margin-bottom: 14px;
+    }
+
+    #modelos-cta p {
+        color: rgba(255,255,255,0.75);
+        margin-bottom: 36px;
+    }
+
+    .btn-principal {
+        display: inline-block;
+        background: var(--verde);
+        color: white;
+        padding: 16px 34px;
+        border-radius: 10px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .btn-grande {
+        background: white;
+        color: var(--azul-petroleo);
+        padding: 18px 44px;
+        font-size: 1.05rem;
+    }
+
+    .btn-grande:hover { background: var(--gris-claro); }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        #modelos-hero { padding: 110px 24px 40px; }
+        #modelos-grid-seccion { padding: 50px 24px; }
+        .modelos-grid { grid-template-columns: 1fr; }
+        #modelos-cta { padding: 60px 24px; }
+        .modelo-overlay { display: none; }
+    }
+</style>

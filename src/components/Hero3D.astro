@@ -1,140 +1,173 @@
-<div id="escena-3d-contenedor"></div>
+<div id="hero3d-wrap">
+    <canvas id="hero3d-canvas"></canvas>
+</div>
 
 <style>
-    #escena-3d-contenedor {
+    #hero3d-wrap {
         position: absolute;
         inset: 0;
         z-index: 0;
         pointer-events: none;
+        overflow: hidden;
     }
 
-    #escena-3d-contenedor canvas {
+    #hero3d-canvas {
         display: block;
+        width: 100%;
+        height: 100%;
     }
 </style>
 
 <script>
     import * as THREE from 'three'
 
-    const contenedor = document.getElementById('escena-3d-contenedor')
+    // Esperamos a que el DOM esté completamente listo
+    window.addEventListener('load', () => {
+        const canvas = document.getElementById('hero3d-canvas') as HTMLCanvasElement
+        const wrap = document.getElementById('hero3d-wrap') as HTMLDivElement
 
-    if (contenedor) {
+        if (!canvas || !wrap) return
+
+        const ancho = wrap.clientWidth
+        const alto = wrap.clientHeight
+
         // ===== ESCENA =====
         const scene = new THREE.Scene()
 
         // ===== CÁMARA =====
-        const camera = new THREE.PerspectiveCamera(
-            60,
-            contenedor.clientWidth / contenedor.clientHeight,
-            0.1,
-            1000
-        )
-        camera.position.set(0, 8, 18)
+        const camera = new THREE.PerspectiveCamera(55, ancho / alto, 0.1, 1000)
+        camera.position.set(0, 6, 20)
         camera.lookAt(0, 0, 0)
 
         // ===== RENDERER =====
-        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true })
-        renderer.setSize(contenedor.clientWidth, contenedor.clientHeight)
+        const renderer = new THREE.WebGLRenderer({
+            canvas,
+            alpha: true,
+            antialias: true
+        })
+        renderer.setSize(ancho, alto)
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
-        contenedor.appendChild(renderer.domElement)
 
         // ===== TERRENO ONDULADO =====
-        const geometriaTerreno = new THREE.PlaneGeometry(60, 60, 80, 80)
-        const posiciones = geometriaTerreno.attributes.position
+        const geoTerreno = new THREE.PlaneGeometry(80, 50, 100, 60)
+        const pos = geoTerreno.attributes.position
 
-        for (let i = 0; i < posiciones.count; i++) {
-            const x = posiciones.getX(i)
-            const y = posiciones.getY(i)
-            const onda = Math.sin(x * 0.2) * Math.cos(y * 0.2) * 1.2
-            posiciones.setZ(i, onda)
+        for (let i = 0; i < pos.count; i++) {
+            const x = pos.getX(i)
+            const y = pos.getY(i)
+            const z = Math.sin(x * 0.15) * Math.cos(y * 0.2) * 1.8
+                    + Math.sin(x * 0.3 + 1) * 0.6
+            pos.setZ(i, z)
         }
-        geometriaTerreno.computeVertexNormals()
+        geoTerreno.computeVertexNormals()
 
-        const materialTerreno = new THREE.MeshStandardMaterial({
+        const matTerreno = new THREE.MeshStandardMaterial({
             color: 0x1b9c63,
-            wireframe: false,
-            roughness: 0.8,
-            metalness: 0.1,
             transparent: true,
-            opacity: 0.18,
+            opacity: 0.15,
+            roughness: 0.9,
+            metalness: 0.0,
+            side: THREE.DoubleSide,
         })
 
-        const terreno = new THREE.Mesh(geometriaTerreno, materialTerreno)
-        terreno.rotation.x = -Math.PI / 2.3
-        terreno.position.y = -4
+        const terreno = new THREE.Mesh(geoTerreno, matTerreno)
+        terreno.rotation.x = -Math.PI / 2
+        terreno.position.set(0, -3, 0)
         scene.add(terreno)
 
-        // ===== PARTÍCULAS FLOTANTES =====
-        const cantidadParticulas = 200
-        const geometriaParticulas = new THREE.BufferGeometry()
-        const posicionesParticulas = new Float32Array(cantidadParticulas * 3)
+        // Segunda capa del terreno más brillante
+        const matTerreno2 = new THREE.MeshStandardMaterial({
+            color: 0x8de3b8,
+            transparent: true,
+            opacity: 0.06,
+            wireframe: true,
+        })
+        const terreno2 = new THREE.Mesh(geoTerreno, matTerreno2)
+        terreno2.rotation.x = -Math.PI / 2
+        terreno2.position.set(0, -2.8, 0)
+        scene.add(terreno2)
 
-        for (let i = 0; i < cantidadParticulas; i++) {
-            posicionesParticulas[i * 3] = (Math.random() - 0.5) * 40
-            posicionesParticulas[i * 3 + 1] = Math.random() * 15
-            posicionesParticulas[i * 3 + 2] = (Math.random() - 0.5) * 30
+        // ===== PARTÍCULAS =====
+        const totalParticulas = 300
+        const geoParticulas = new THREE.BufferGeometry()
+        const posParticulas = new Float32Array(totalParticulas * 3)
+
+        for (let i = 0; i < totalParticulas; i++) {
+            posParticulas[i * 3]     = (Math.random() - 0.5) * 60
+            posParticulas[i * 3 + 1] = Math.random() * 20 - 5
+            posParticulas[i * 3 + 2] = (Math.random() - 0.5) * 40
         }
 
-        geometriaParticulas.setAttribute(
-            'position',
-            new THREE.BufferAttribute(posicionesParticulas, 3)
-        )
+        geoParticulas.setAttribute('position', new THREE.BufferAttribute(posParticulas, 3))
 
-        const materialParticulas = new THREE.PointsMaterial({
+        const matParticulas = new THREE.PointsMaterial({
             color: 0x8de3b8,
-            size: 0.12,
+            size: 0.1,
             transparent: true,
-            opacity: 0.6,
+            opacity: 0.7,
+            sizeAttenuation: true,
         })
 
-        const particulas = new THREE.Points(geometriaParticulas, materialParticulas)
+        const particulas = new THREE.Points(geoParticulas, matParticulas)
         scene.add(particulas)
 
         // ===== LUCES =====
-        const luzAmbiente = new THREE.AmbientLight(0xffffff, 0.5)
-        scene.add(luzAmbiente)
+        scene.add(new THREE.AmbientLight(0xffffff, 0.6))
 
-        const luzDireccional = new THREE.DirectionalLight(0x8de3b8, 0.8)
-        luzDireccional.position.set(5, 10, 5)
-        scene.add(luzDireccional)
+        const luzVerde = new THREE.DirectionalLight(0x1b9c63, 1.2)
+        luzVerde.position.set(-10, 15, 10)
+        scene.add(luzVerde)
+
+        const luzAzul = new THREE.DirectionalLight(0x0c5460, 0.8)
+        luzAzul.position.set(10, 5, -5)
+        scene.add(luzAzul)
 
         // ===== ANIMACIÓN =====
-        let reloj = 0
+        let t = 0
 
         function animar() {
             requestAnimationFrame(animar)
-            reloj += 0.005
+            t += 0.004
 
-            // Las partículas flotan suavemente
-            particulas.rotation.y = reloj * 0.05
+            // Terreno respira suavemente
+            terreno.rotation.z = Math.sin(t * 0.4) * 0.015
+            terreno2.rotation.z = Math.sin(t * 0.4) * 0.015
 
-            const posParticulas = particulas.geometry.attributes.position
-            for (let i = 0; i < cantidadParticulas; i++) {
-                const y = posParticulas.getY(i)
-                posParticulas.setY(i, y + Math.sin(reloj + i) * 0.003)
+            // Partículas flotan
+            particulas.rotation.y = t * 0.03
+            const pp = particulas.geometry.attributes.position
+            for (let i = 0; i < totalParticulas; i++) {
+                const yActual = pp.getY(i)
+                pp.setY(i, yActual + Math.sin(t + i * 0.1) * 0.003)
             }
-            posParticulas.needsUpdate = true
-
-            // El terreno respira suavemente
-            terreno.rotation.z = Math.sin(reloj * 0.3) * 0.02
+            pp.needsUpdate = true
 
             renderer.render(scene, camera)
         }
 
         animar()
 
-        // ===== MOVIMIENTO CON SCROLL =====
-        window.addEventListener('scroll', () => {
-            const scrollY = window.scrollY
-            camera.position.y = 8 - scrollY * 0.01
-            camera.rotation.x = scrollY * 0.0003
-        })
+        // ===== SCROLL PARALLAX =====
+        const hero = document.getElementById('hero')
+        if (hero) {
+            window.addEventListener('scroll', () => {
+                const scrollY = window.scrollY
+                const maxScroll = hero.offsetHeight
+                if (scrollY <= maxScroll) {
+                    camera.position.y = 6 - (scrollY / maxScroll) * 8
+                    camera.position.z = 20 - (scrollY / maxScroll) * 6
+                    particulas.rotation.x = (scrollY / maxScroll) * 0.3
+                }
+            }, { passive: true })
+        }
 
         // ===== RESPONSIVE =====
         window.addEventListener('resize', () => {
-            camera.aspect = contenedor.clientWidth / contenedor.clientHeight
+            const nuevoAncho = wrap.clientWidth
+            const nuevoAlto = wrap.clientHeight
+            camera.aspect = nuevoAncho / nuevoAlto
             camera.updateProjectionMatrix()
-            renderer.setSize(contenedor.clientWidth, contenedor.clientHeight)
+            renderer.setSize(nuevoAncho, nuevoAlto)
         })
-    }
+    })
 </script>
