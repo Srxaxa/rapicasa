@@ -1,0 +1,60 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+    <p>
+        © {year} <strong>Rapicasa</strong>. Todos los derechos reservados.
+        <span class="separator">•</span>
+        Desarrollado por <strong>Daniel Aguirre</strong>
+    </p>
+</footer>
+
+<style>
+.footer {
+    border-top: 1px solid rgba(27, 156, 99, .12);
+    padding: 24px 16px;
+    margin-top: 5rem;
+    background: var(--blanco);
+}
+
+.footer p {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: .5rem;
+    text-align: center;
+
+    color: var(--gris-medio);
+    font-size: .92rem;
+    font-family: var(--fuente-cuerpo);
+    line-height: 1.6;
+}
+
+.footer strong {
+    color: var(--texto);
+    font-weight: 600;
+    transition: color .25s ease;
+}
+
+.footer strong:hover {
+    color: var(--verde);
+}
+
+.separator {
+    color: var(--verde);
+    opacity: .6;
+}
+
+@media (max-width: 768px) {
+    .footer {
+        padding: 20px 14px;
+    }
+
+    .footer p {
+        font-size: .85rem;
+        gap: .35rem;
+    }
+}
+</style>
